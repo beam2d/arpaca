@@ -7,10 +7,12 @@ Requirement
 -----------
 
 Dependent library is listed as follows.
+
 * gfortran
 * BLAS, or its fast and popular implementation ATLAS (f77blas and atlas)
 * LAPACK
 * ARPACK
+
 Lower one depends on upper ones, so you must care of the order when linking with
 gcc or ld; **the correct order is "-larpack -llapack -lf77blas -latlas -lgfortran"**.
 
