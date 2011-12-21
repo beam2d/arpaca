@@ -53,7 +53,7 @@ You can compute large or small side of eigenvalues in the sense of signed or
 absolute value.
 
 Thanks to the flexibility of ARPACK, you can use arbitrary formulation of
-operator A * v, where v is a real vector.
+operator A * x, where x is a real vector.
 
 ```c++
 template<typename MatrixA, typename MatrixB>
