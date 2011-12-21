@@ -15,6 +15,8 @@ Dependent library is listed as follows.
 
 Lower one depends on upper ones, so you must care of the order when linking with
 gcc or ld; **the correct order is "-larpack -llapack -lf77blas -latlas -lgfortran"**.
+arpaca_performance_test also depends on
+[pficommon](http://github.com/pfi/pficommon "pficommon").
 
 Arpaca itself only consists of single header file.
 

@@ -9,7 +9,7 @@ def options(opt):
 
 def configure(cnf):
   cnf.check_tool('compiler_cxx unittest_gtest')
-  cnf.env.append_unique('CXXFLAGS', ['-g', '-W', '-Wall', '-O2'])
+  cnf.env.append_unique('CXXFLAGS', ['-g', '-W', '-Wall', '-O3'])
   cnf.check_cxx(lib = 'arpack')
   cnf.check_cxx(lib = 'lapack')
   cnf.check_cxx(lib = 'f77blas')
@@ -25,6 +25,8 @@ def build(bld):
               source = 'arpaca_test.cpp',
               uselib = 'ARPACK LAPACK F77BLAS ATLAS GFORTRAN')
 
-  bld.program(target = 'performance',
+  bld.program(target = 'arpaca_performance_test',
               source = 'performance_main.cpp',
               uselib = 'PFICOMMON ARPACK LAPACK F77BLAS ATLAS GFORTRAN')
+
+  bld.install_files('${PREFIX}/include/arpaca', 'arpaca.hpp')
