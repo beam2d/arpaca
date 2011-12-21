@@ -201,12 +201,13 @@ class SymmetricEigenSolver {
     iparam[3] = 1;  // block size
     iparam[6] = 1;  // Solve standard eigenvalue problem
 
+    // Calculation workspace
     int lworkl = (num_lanczos_vectors + 8) * num_lanczos_vectors;
     Vector workd(3 * dimension), workl(lworkl);
     std::vector<Scalar> residue(dimension);
-
     Matrix lanczos_vectors(dimension, num_lanczos_vectors);
 
+    // Lanczos iterations
     for (int mode = 0; mode != 99; ) {
       detail::saupd(&mode, bmat, &dimension, eigenvalue_type_name_,
                     &num_eigenvalues, &tolerance_, &residue[0],
@@ -239,10 +240,9 @@ class SymmetricEigenSolver {
 
     // Eigenvectors
     int rvec = 1;  // Compute eigenvectors
-    // Computation of selected eigenvectors is not implemented yet in ARPACK
     char howmany[2] = { 'A' };
     std::vector<int> select(num_lanczos_vectors);
-    Scalar sigma;  // not used
+    Scalar sigma;
 
     eigenvectors_.resize(dimension, num_eigenvalues);
     eigenvalues_.resize(num_eigenvalues);
