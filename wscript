@@ -29,4 +29,4 @@ def build(bld):
               source = 'performance_main.cpp',
               uselib = 'PFICOMMON ARPACK LAPACK F77BLAS ATLAS GFORTRAN')
 
-  bld.install_files('${PREFIX}/include/arpaca', 'arpaca.hpp')
+  bld.install_files('${PREFIX}/include', 'arpaca.hpp')
