@@ -26,7 +26,7 @@ void dseupd_(int* rvec, char* howmny, int* select, double* d, double* z,
              int* iparam, int* ipntr, double* workd, double* workl, int* lworkl,
              int* info);
 
-// Eigenvalue problem solver for result of fsaupd_
+// Eigenvalue problem solver for result of ssaupd_
 void sseupd_(int* rvec, char* howmny, int* select, float* d, float* z, int* ldz,
              float* sigma, char* bmat, int* n, char* which, int* nev,
              float* tol, float* resid, int* ncv, float* v, int* ldv,
@@ -111,7 +111,7 @@ void seupd<float>(int* rvec, char* howmny, int* select, float* d, float* z,
 
 }  // namespace detail
 
-// Eigenvalue problem solver for symmetric matrix (especially when sparse).
+// Eigenvalue problem solver for symmetric matrix (especially sparse one).
 // It partly computes eigenvalues and eigenvectors of a symmetric matrix A using
 // ARPACK, which implements Implicitly Restarted Arnoldi (IRA) method.
 template<typename Scalar = double>
@@ -129,12 +129,14 @@ class SymmetricEigenSolver {
   }
 
   // Sets # of Lanczos vectors.
-  // X * (# of objective eigenvalues) is recommended, where X is in [2, 4].
+  // From two to four times larger than # of objective eigenvalues is
+  // recommended.
   //
-  // NOTE: IRA iteratively improves subspace containing the objective
-  // eigenvectors which consists of |num| basis vectors. Too small |num| causes
-  // slow convergence, while too large |num| requires large size of memory and
-  // even make each iteration too slow.
+  // NOTE: IRA approximates subspace containing the objective eigenvectors by
+  // constructing |num| orthogonal basis vectors in each iteration, which is
+  // improved for each iteration. Consequently, too small |num| causes slow
+  // convergence, while too large |num| requires large size of memory and even
+  // make each iteration too slow.
   void SetNumLanczosVectors(int num)
   {
     num_lanczos_vectors_ = num;
@@ -144,7 +146,7 @@ class SymmetricEigenSolver {
   void SetMaxIterations(int num)
   {
     if (num <= 0)
-      throw std::invalid_argument("Given max iterations is not positive");
+      throw std::invalid_argument("Given # of iterations is not positive");
     max_iterations_ = num;
   }
 
@@ -162,8 +164,9 @@ class SymmetricEigenSolver {
     detail::GetNameOfEigenvalueType(type, eigenvalue_type_name_);
   }
 
-  // Solves the eigenvalue problem "Ax = cx".
-  // A must be a real symmetric matrix, which is not explicitly indicated.
+  // Solves the eigenvalue problem of a real symmetrix matrix A.
+  // The matrix A is not set explicitly. Solve() only needs the operator
+  // y = A * x.
   //
   // dimension:       Dimension of space (rows or cols of the matrix A).
   // num_eigenvalues: # of eigenvalues to compute.
@@ -265,7 +268,6 @@ class SymmetricEigenSolver {
     return eigenvalues_;
   }
 
-  // Moves the eigenvectors.
   Matrix MoveEigenvectors()
   {
     Matrix eigenvectors;
@@ -273,7 +275,6 @@ class SymmetricEigenSolver {
     return eigenvectors;
   }
 
-  // Moves the eigenvalues.
   Vector MoveEigenvalues()
   {
     Vector eigenvalues;
@@ -319,6 +320,7 @@ class SymmetricEigenSolver {
   char eigenvalue_type_name_[3];
 };
 
+// Default operator for the case the matrix A is explicitly given.
 template<typename MatrixType>
 class DefaultOperator {
  public:
@@ -342,6 +344,8 @@ inline DefaultOperator<Matrix> MakeDefaultOperator(Matrix& A)
   return DefaultOperator<Matrix>(A);
 }
 
+// Solves the eigenvalue problem of a real symmetrix matrix A, where the matrix
+// A is explicitly given.
 template<typename Matrix>
 SymmetricEigenSolver<typename Matrix::Scalar> Solve(
     const Matrix& A,
