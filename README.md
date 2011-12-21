@@ -56,35 +56,37 @@ Thanks to the flexibility of ARPACK, you can use arbitrary formulation of
 operator A * v, where v is a real vector.
 
 ```c++
-template<typename Matrix>
-class TimesIMinusA {
+template<typename MatrixA, typename MatrixB>
+class TimesAB {
  public:
-  explicit TimesIMinusA(Matrix& A)
-      : A_(A)
+  explicit TimesAB(MatrixA& A, typename MatrixB)
+      : A_(A),
+        B_(B)
   {}
 
   template<typename X, typename Y>
   void operator(X x, Y y) const
   {
-    // "y = (I - A_) * x" is written as follows.
-    y = x - A_ * x;
+    y = A_ * (B_ * x);
   }
 
  private:
-  Matrix& A_;
+  MatrixA& A_;
+  MatrixB& B_;
 };
 
-template<typename Matrix>
-TimesIMinusA<Matrix> MakeTimesIMinusA(Matrix& A) {
-  return TimesIMinusA<Matrix>(A);
+template<typename MatrixA, typename MatrixB>
+TimesAB<MatrixA, MatrixB> MakeTimesAB(MatrixA& A, MatrixB& B) {
+  return TimesAB<MatrixA, MatrixB>(A, B);
 }
 
 Eigen::SparseMatrix<double, Eigen::RowMajor> A;
+Eigen::SparseMatrix<double, Eigen::ColMajor> B;
 //...
 
-// Solve eigenproblem of I - A
+// Solve eigenproblem of AB'
 arpaca::SymmetricEigenSolver<double> solver;
-solver.Solve(A.rows(), 10, MakeTimesIMinusA(A));
+solver.Solve(A.rows(), 10, MakeTimesAB(A, B.transpose()));
 ```
 
 License
