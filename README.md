@@ -37,7 +37,7 @@ Eigen::SparseMatrix<double, Eigen::RowMajor> A;
 //...
 
 const int num_eigenvalues = 10;
-const EigenvalueType type = arpaca::ALGEBRAIC_LARGEST;
+const arpaca::EigenvalueType type = arpaca::ALGEBRAIC_LARGEST;
 
 arpaca::SymmetricEigenSolver<double> solver =
     arpaca::Solve(A, num_eigenvalues, type);
