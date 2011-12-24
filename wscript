@@ -11,10 +11,10 @@ def configure(cnf):
   cnf.check_tool('compiler_cxx unittest_gtest')
   cnf.env.append_unique('CXXFLAGS', ['-g', '-W', '-Wall', '-O3'])
   cnf.check_cxx(lib = 'arpack')
-  cnf.check_cxx(lib = 'lapack')
-  cnf.check_cxx(lib = 'f77blas')
-  cnf.check_cxx(lib = 'gfortran')
-  cnf.check_cxx(lib = 'atlas')
+  cnf.check_cxx(lib = 'lapack', mandatory = False)
+  cnf.check_cxx(lib = 'f77blas', mandatory = False)
+  cnf.check_cxx(lib = 'gfortran', mandatory = False)
+  cnf.check_cxx(lib = 'atlas', mandatory = False)
 
   # for test and performance
   cnf.check_cxx(lib = 'pficommon')
