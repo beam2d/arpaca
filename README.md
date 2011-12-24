@@ -6,8 +6,8 @@ Arpaca is a thin wrapper of ARnoldi PACKage (ARPACK) in C++ using Eigen.
 Requirement
 -----------
 
-Arpaca uses [ARPACK](http://www.caam.rice.edu/software/ARPACK/ "arpack").
-You can install ARPACK in many package systems.
+Arpaca uses [ARPACK](http://www.caam.rice.edu/software/ARPACK/ "arpack"),
+which you can install by many package managers.
 If you want to install it from source code,
 gfortran, BLAS (ATLAS is better as its implementation) and LAPACK are
 required.
@@ -18,7 +18,9 @@ arpaca_performance_test also depends on
 Installation
 ------------
 
-Just copy arpaca.hpp to any path in include paths list.
+Just copy arpaca.hpp where you like.
+Since the interface may be changed in the future,
+it is recommended to copy it to the local directory of your own project.
 
 Typical Usage
 -------------
