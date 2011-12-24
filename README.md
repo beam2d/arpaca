@@ -6,19 +6,14 @@ Arpaca is a thin wrapper of ARnoldi PACKage (ARPACK) in C++ using Eigen.
 Requirement
 -----------
 
-Dependent library is listed as follows.
+Arpaca uses [ARPACK](http://www.caam.rice.edu/software/ARPACK/ "arpack").
+You can install ARPACK in many package systems.
+If you want to install it from source code,
+gfortran, BLAS (ATLAS is better as its implementation) and LAPACK are
+required.
 
-* gfortran
-* BLAS, or its fast and popular implementation ATLAS (f77blas and atlas)
-* LAPACK
-* ARPACK
-
-Lower one depends on upper ones, so you must care of the order when linking with
-gcc or ld; **the correct order is "-larpack -llapack -lf77blas -latlas -lgfortran"**.
 arpaca_performance_test also depends on
 [pficommon](http://github.com/pfi/pficommon "pficommon").
-
-Arpaca itself only consists of single header file.
 
 Installation
 ------------
