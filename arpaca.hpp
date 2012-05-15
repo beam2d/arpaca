@@ -186,11 +186,13 @@ class SymmetricEigenSolver {
 
     num_eigenvalues = std::max(std::min(num_eigenvalues, dimension), 0);
 
-    int num_lanczos_vectors = std::min(num_lanczos_vectors_, dimension);
+    int num_lanczos_vectors = num_lanczos_vectors_;
     if (num_lanczos_vectors <= 0)
       num_lanczos_vectors = num_eigenvalues * 3;
     else if (num_lanczos_vectors <= num_eigenvalues)
       num_lanczos_vectors = num_eigenvalues + 1;
+
+    num_lanczos_vectors = std::min(num_lanczos_vectors, dimension);
 
     char bmat[2] = { 'I' };
     int leading_dimension = dimension;

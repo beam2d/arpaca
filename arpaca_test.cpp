@@ -150,6 +150,7 @@ INSTANTIATE_TEST_CASE_P(
     SizeTest,
     RandomMatrixTest,
     testing::Values(MakeParameter(100, 1000, 10, 50),
-                    MakeParameter(1000, 10000, 100, 500)));
+                    MakeParameter(1000, 10000, 100, 500),
+                    MakeParameter(100, 1000, 50, 0)));
 
 }  // namespace arpaca
