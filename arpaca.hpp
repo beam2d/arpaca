@@ -99,11 +99,11 @@ void seupd(int* rvec, char* howmny, int* select, Scalar* d, Scalar* z, int* ldz,
 }
 
 template<>
-void seupd<float>(int* rvec, char* howmny, int* select, float* d, float* z,
-                  int* ldz, float* sigma, char* bmat, int* n, char* which,
-                  int* nev, float* tol, float* resid, int* ncv, float* v,
-                  int* ldv, int* iparam, int* ipntr, float* workd, float* workl,
-                  int* lworkl, int* info)
+inline void seupd<float>(int* rvec, char* howmny, int* select, float* d,
+                         float* z, int* ldz, float* sigma, char* bmat, int* n,
+                         char* which, int* nev, float* tol, float* resid,
+                         int* ncv, float* v, int* ldv, int* iparam, int* ipntr,
+                         float* workd, float* workl, int* lworkl, int* info)
 {
   sseupd_(rvec, howmny, select, d, z, ldz, sigma, bmat, n, which, nev, tol,
           resid, ncv, v, ldv, iparam, ipntr, workd, workl, lworkl, info);
