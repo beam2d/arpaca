@@ -10,6 +10,7 @@ def options(opt):
 def configure(cnf):
   cnf.check_tool('compiler_cxx unittest_gtest')
   cnf.env.append_unique('CXXFLAGS', ['-g', '-W', '-Wall', '-O3'])
+
   cnf.check_cxx(lib = 'arpack')
   cnf.check_cxx(lib = 'lapack', mandatory = False)
   cnf.check_cxx(lib = 'f77blas', mandatory = False)
@@ -17,7 +18,7 @@ def configure(cnf):
   cnf.check_cxx(lib = 'atlas', mandatory = False)
 
   # for test and performance
-  cnf.check_cxx(lib = 'pficommon')
+  cnf.check_cfg(package = 'pficommon', args = '--cflags --libs')
 
 def build(bld):
   bld.program(target = 'arpaca_test',
